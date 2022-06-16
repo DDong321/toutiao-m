@@ -1,1 +1,23 @@
+//out: false
+// 阻止less自动转换css(开启easy less插件) 写在第一行
+
 // 全局样式
+
+// 加载字体图标(这是less语法)
+@import './icon.less';
+
+body {
+  background-color: #f5f7f9;
+}
+
+.page-nav-bar {
+  background-color: #3296fa !important;
+
+  .van-nav-bar__title {
+    color: #fff;
+  }
+
+  .van-icon {
+    color: #fff !important;
+  }
+}
