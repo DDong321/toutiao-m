@@ -1,7 +1,9 @@
 <template>
   <div class="login-container">
     <!-- 导航栏 -->
-    <van-nav-bar class="page-nav-bar" title="登录" />
+    <van-nav-bar class="page-nav-bar" title="登录">
+      <van-icon name="cross" slot="left" @click="$router.go(-1)"/>
+    </van-nav-bar>
     <!-- /导航栏 -->
 
     <!-- 登录表单 -->
@@ -61,8 +63,8 @@
       </van-field>
       <div class="login-btn-wrap">
         <van-button class="login-btn" block type="info" native-type="submit"
-          >登录</van-button
-        >
+        >登录
+        </van-button>
       </div>
     </van-form>
     <!-- /登录表单 -->
@@ -72,6 +74,7 @@
 <script>
 import { login, sendSms } from '@/api/user'
 import { mapMutations } from 'vuex'
+
 export default {
   name: 'LoginIndex',
   data () {
@@ -121,6 +124,9 @@ export default {
         this.$toast.success('登录成功') // 会先把其他的toast清除
         // 调用mutations里的方法
         this.setUser(data.data)
+
+        // 后退
+        this.$router.back()
       } catch (err) {
         if (err.response.status === 400) {
           this.$toast.fail('手机号或验证码错误')
@@ -161,6 +167,7 @@ export default {
   .toutiao {
     font-size: 37px;
   }
+
   .send-sms-btn {
     width: 156px;
     height: 46px;
@@ -169,8 +176,10 @@ export default {
     font-size: 22px;
     color: #666;
   }
+
   .login-btn-wrap {
     padding: 53px 33px;
+
     .login-btn {
       background-color: #6db4fb;
       border: none;
