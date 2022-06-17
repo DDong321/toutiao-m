@@ -9,6 +9,7 @@ const TOKEN_KEY = 'TOUTIAO_USER'
 
 export default new Vuex.Store({
   state: {
+    // 页面一刷新就从本地存储获取token 用户没有登录拿到的就是null
     token: getItem(TOKEN_KEY)
   },
   getters: {},

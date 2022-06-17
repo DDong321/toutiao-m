@@ -5,12 +5,8 @@
       <!-- 用户信息 -->
       <div class="base-info">
         <div class="left">
-          <van-image class="avatar"
-                     round
-                     fit="cover"
-                     src="https://img.yzcdn.cn/vant/cat.jpeg"
-          />
-          <span class="name">黑马1号帅哥</span>
+          <van-image class="avatar" fit="cover" :src="userInfo.photo" />
+          <span class="name">{{ userInfo.name }}</span>
         </div>
         <div class="right">
           <van-button size="mini" round>编辑资料</van-button>
@@ -19,20 +15,20 @@
       <!-- 用户数据 -->
       <div class="data-stats">
         <div class="data-item">
-          <span class="count">10</span>
+          <span class="count">{{ userInfo.art_count }}</span>
           <span class="text">头条</span>
         </div>
         <div class="data-item">
-          <span class="count">10</span>
+          <span class="count">{{ userInfo.follow_count }}</span>
           <span class="text">关注</span>
         </div>
         <div class="data-item">
-          <span class="count">10</span>
+          <span class="count">{{ userInfo.fans_count }}</span>
           <span class="text">粉丝</span>
         </div>
         <div class="data-item">
-          <span class="count">10</span>
-          <span class="text">粉丝</span>
+          <span class="count">{{ userInfo.like_count }}</span>
+          <span class="text">获赞</span>
         </div>
       </div>
     </div>
@@ -40,7 +36,7 @@
     <!-- 未登录 -->
     <div class="header not-login" v-else>
       <div class="login-btn" @click="$router.push('/login')">
-        <img alt="" class="mobile-img" src="@/assets/mobile.png">
+        <img alt="" class="mobile-img" src="@/assets/mobile.png" />
         <span class="text">登录&nbsp;/&nbsp;注册</span>
       </div>
     </div>
@@ -58,13 +54,14 @@
     </van-grid>
     <!-- /宫格导航 -->
     <!-- 单元格导航 -->
-    <van-cell title="消息通知" is-link/>
-    <van-cell class="mb-9" title="小智同学" is-link/>
-    <van-cell class="logout-cell"
-              clickable
-              title="退出登录"
-              v-if="token"
-              @click="onLogout"
+    <van-cell title="消息通知" is-link />
+    <van-cell class="mb-9" title="小智同学" is-link />
+    <van-cell
+      class="logout-cell"
+      clickable
+      title="退出登录"
+      v-if="token"
+      @click="onLogout"
     />
     <!-- /单元格导航 -->
   </div>
@@ -72,11 +69,22 @@
 
 <script>
 import { mapState } from 'vuex'
+import { getUserInfo } from '@/api/user'
 
 export default {
   name: 'MyIndex',
+  data () {
+    return {
+      userInfo: {}
+    }
+  },
   computed: {
     ...mapState(['token'])
+  },
+  created () {
+    if (this.token) {
+      this.getUserInfo()
+    }
   },
   methods: {
     async onLogout () {
@@ -89,6 +97,14 @@ export default {
         this.$store.commit('removeUser')
       } catch (err) {
         // 取消
+      }
+    },
+    async getUserInfo () {
+      try {
+        const { data } = await getUserInfo()
+        this.userInfo = data.data
+      } catch (err) {
+        this.$toast.fail('获取信息失败')
       }
     }
   }
@@ -210,6 +226,5 @@ export default {
   .mb-9 {
     margin-bottom: 9px;
   }
-
 }
 </style>
