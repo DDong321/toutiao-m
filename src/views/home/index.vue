@@ -9,7 +9,7 @@
         size="small"
         round
         icon="search"
-        >搜索
+      >搜索
       </van-button>
     </van-nav-bar>
     <!-- /导航栏 -->
@@ -25,17 +25,28 @@
         :key="channel.id"
         :title="channel.name"
       >
-        <ArticLeList :channel="channel" />
+        <ArticLeList :channel="channel"/>
       </van-tab>
       <!-- 右侧自定义内容 -->
       <!-- 占位元素 让最后一个tab能全部显示-->
       <div slot="nav-right" class="placeholder"></div>
       <!-- 右侧按钮 -->
-      <div slot="nav-right" class="hamburger-btn">
+      <div slot="nav-right" class="hamburger-btn" @click="isChannelEditShow = true">
         <i class="toutiao toutiao-gengduo"></i>
       </div>
     </van-tabs>
     <!-- /频道列表 -->
+    <!-- 频道编辑弹层 -->
+    <van-popup
+      v-model="isChannelEditShow"
+      closeable
+      position="bottom"
+      :style="{ height: '100%' }"
+      close-icon-position="top-left"
+    >
+      <ChannelEdit :my-channels="channels" :active="active"/>
+    </van-popup>
+    <!-- /频道编辑弹层 -->
   </div>
 </template>
 
@@ -43,16 +54,19 @@
 // 导入获取用户频道的方法
 import { getUserChannels } from '@/api/user'
 import ArticLeList from './components/article-list'
+import ChannelEdit from './components/channel-edit'
 
 export default {
   name: 'HomeIndex',
   components: {
-    ArticLeList
+    ArticLeList,
+    ChannelEdit
   },
   data () {
     return {
       active: 0,
-      channels: [] // 用户频道列表
+      channels: [], // 用户频道列表
+      isChannelEditShow: false // 弹出层是否显示
     }
   },
   created () {

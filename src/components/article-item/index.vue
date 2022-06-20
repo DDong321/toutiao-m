@@ -10,7 +10,7 @@
           v-for="(img, index) in article.cover.images"
           :key="index"
         >
-          <van-image class="cover-item-img" fit="cover" :src="img" />
+          <van-image class="cover-item-img" fit="cover" :src="img"/>
         </div>
       </div>
       <div class="label-info-wrap">
@@ -32,6 +32,7 @@
 <script>
 // import '@/utils/dayjs'
 import dayjs from '@/utils/dayjs'
+
 export default {
   name: 'ArticleItem',
   components: {},
@@ -84,12 +85,15 @@ export default {
   .cover-wrap {
     display: flex;
     padding: 30px 0;
+
     .cover-item {
       flex: 1;
       height: 146px;
+
       &:not(:last-child) {
         padding-right: 4px;
       }
+
       .cover-item-img {
         width: 100%;
         height: 146px;
