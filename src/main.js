@@ -14,6 +14,9 @@ import 'vant/lib/index.css'
 // 使用(postcss css处理工具)postcss-pxtorem 将px转为rem (配置.postcssrc.js文件)
 import 'amfe-flexible'
 
+// 导入dayjs.js文件
+// import '@/utils/dayjs'
+
 Vue.use(Vant)
 
 Vue.config.productionTip = false
