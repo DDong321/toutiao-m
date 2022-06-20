@@ -24,3 +24,9 @@ export const getUserInfo = () => request({
   //   Authorization: `Bearer ${store.state.token.token}`
   // }
 })
+
+// 获取用户频道列表
+export const getUserChannels = () => request({
+  method: 'GET',
+  url: '/v1_0/user/channels'
+})
