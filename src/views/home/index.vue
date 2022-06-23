@@ -9,6 +9,7 @@
         size="small"
         round
         icon="search"
+        to="/search"
       >搜索
       </van-button>
     </van-nav-bar>
@@ -44,7 +45,7 @@
       :style="{ height: '100%' }"
       close-icon-position="top-left"
     >
-      <ChannelEdit :my-channels="channels" :active="active"/>
+      <ChannelEdit :my-channels="channels" :active.sync="active" @addChannel="addChannel"/>
     </van-popup>
     <!-- /频道编辑弹层 -->
   </div>
@@ -55,6 +56,8 @@
 import { getUserChannels } from '@/api/user'
 import ArticLeList from './components/article-list'
 import ChannelEdit from './components/channel-edit'
+import { mapState } from 'vuex'
+import { getItem } from '@/utils/storage'
 
 export default {
   name: 'HomeIndex',
@@ -72,14 +75,37 @@ export default {
   created () {
     this.getUserChannels()
   },
+  computed: {
+    ...mapState(['token'])
+  },
   methods: {
     async getUserChannels () {
+      // 频道数据持久化 - 正确获取首页频道数据
+      // 情况1: 有token 拿的是登录后操作的频道
+      // 情况2: 没token 拿的是默认频道
+      // 没token:
+      // - 没登录,也没操作过数据(本地存储肯定为null)
+      // - 没登陆过,操作过数据(本地存储为true)
       try {
+        // 无论什么情况 先拿后台数据
         const { data } = await getUserChannels()
         this.channels = data.data.channels
+        if (!this.token && getItem('TOUTIAO_CHANNELS')) {
+          this.channels = getItem('TOUTIAO_CHANNELS')
+        }
       } catch (err) {
-        this.$toast.fail('获取用户频道列表失败')
+        this.$toast.fail('获取频道失败')
       }
+      // try {
+      //   const { data } = await getUserChannels()
+      //   this.channels = data.data.channels
+      // } catch (err) {
+      //   this.$toast.fail('获取用户频道列表失败')
+      // }
+    },
+    // 定义一个添加用户频道的函数
+    addChannel (channel) {
+      this.channels.push(channel)
     }
   }
 }
