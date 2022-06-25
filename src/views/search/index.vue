@@ -89,7 +89,7 @@ export default {
   },
   methods: {
     onSearch (val) {
-      if (this.searchText === '') return
+      // if (this.searchText === '') return
       // 存储搜索历史记录（去重 新的添加至前面）
       // 先判断搜索的字段在历史记录里面有没有
       const index = this.searchHistories.indexOf(val)
