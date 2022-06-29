@@ -1,4 +1,4 @@
-// import Vue from 'vue'
+import Vue from 'vue'
 // 导入dayjs
 import dayjs from 'dayjs'
 // 加载语言环境
@@ -12,9 +12,9 @@ dayjs.extend(relativeTime)
 dayjs.locale('zh-cn')
 
 // 全局过滤器：处理相对时间
-// Vue.filter('relativeTime', value => {
-//   return dayjs().to(dayjs(value))
-// })
+Vue.filter('relativeTime1', value => {
+  return dayjs().to(dayjs(value))
+})
 
 // 导出 局部进行使用
 export default dayjs

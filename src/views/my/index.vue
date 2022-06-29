@@ -5,11 +5,11 @@
       <!-- 用户信息 -->
       <div class="base-info">
         <div class="left">
-          <van-image class="avatar" fit="cover" :src="userInfo.photo" />
+          <van-image class="avatar" fit="cover" :src="userInfo.photo"/>
           <span class="name">{{ userInfo.name }}</span>
         </div>
         <div class="right">
-          <van-button size="mini" round>编辑资料</van-button>
+          <van-button size="mini" round to="/user/profile">编辑资料</van-button>
         </div>
       </div>
       <!-- 用户数据 -->
@@ -36,7 +36,7 @@
     <!-- 未登录 -->
     <div class="header not-login" v-else>
       <div class="login-btn" @click="$router.push('/login')">
-        <img alt="" class="mobile-img" src="@/assets/mobile.png" />
+        <img alt="" class="mobile-img" src="@/assets/mobile.png"/>
         <span class="text">登录&nbsp;/&nbsp;注册</span>
       </div>
     </div>
@@ -54,8 +54,8 @@
     </van-grid>
     <!-- /宫格导航 -->
     <!-- 单元格导航 -->
-    <van-cell title="消息通知" is-link />
-    <van-cell class="mb-9" title="小智同学" is-link />
+    <van-cell title="消息通知" is-link/>
+    <van-cell class="mb-9" title="小智同学" is-link/>
     <van-cell
       class="logout-cell"
       clickable

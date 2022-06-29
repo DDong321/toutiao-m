@@ -10,7 +10,7 @@
         round
         icon="search"
         to="/search"
-      >搜索
+        >搜索
       </van-button>
     </van-nav-bar>
     <!-- /导航栏 -->
@@ -26,13 +26,17 @@
         :key="channel.id"
         :title="channel.name"
       >
-        <ArticLeList :channel="channel"/>
+        <ArticLeList :channel="channel" ref="article" />
       </van-tab>
       <!-- 右侧自定义内容 -->
       <!-- 占位元素 让最后一个tab能全部显示-->
       <div slot="nav-right" class="placeholder"></div>
       <!-- 右侧按钮 -->
-      <div slot="nav-right" class="hamburger-btn" @click="isChannelEditShow = true">
+      <div
+        slot="nav-right"
+        class="hamburger-btn"
+        @click="isChannelEditShow = true"
+      >
         <i class="toutiao toutiao-gengduo"></i>
       </div>
     </van-tabs>
@@ -45,7 +49,11 @@
       :style="{ height: '100%' }"
       close-icon-position="top-left"
     >
-      <ChannelEdit :my-channels="channels" :active.sync="active" @addChannel="addChannel"/>
+      <ChannelEdit
+        :my-channels="channels"
+        :active.sync="active"
+        @addChannel="addChannel"
+      />
     </van-popup>
     <!-- /频道编辑弹层 -->
   </div>
@@ -69,11 +77,27 @@ export default {
     return {
       active: 0,
       channels: [], // 用户频道列表
-      isChannelEditShow: false // 弹出层是否显示
+      isChannelEditShow: false, // 弹出层是否显示
+      top: null, // 保存滚动的位置
+      children: {} // 保存加载出来的组件
     }
   },
   created () {
     this.getUserChannels()
+  },
+  // 失活(离开这个组件)的路由导航守卫
+  beforeRouteLeave (to, from, next) {
+    // 1.跳走的时候获取组件的滚动位置
+    // 找父盒子（tab的父盒子是永远存在的，点哪个就在哪个父盒子找article-list的内容）
+    const el = document.querySelectorAll('.van-tab__pane-wrapper')[this.active]
+    this.children = el.querySelector('.article-list')
+    this.top = this.children.scrollTop
+    next()
+  },
+  // 缓存组件激活的时候触发该钩子函数
+  activated () {
+    // 2.组件激活的时候 设置滚动位置
+    this.children.scrollTop = this.top
   },
   computed: {
     ...mapState(['token'])
