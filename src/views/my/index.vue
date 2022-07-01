@@ -86,6 +86,13 @@ export default {
       this.getUserInfo()
     }
   },
+  activated () {
+    // 由于layout被缓存 修改过资料后无法更新资料
+    // 所以这里使用 activated 再次调用获取信息请求
+    if (this.token) {
+      this.getUserInfo()
+    }
+  },
   methods: {
     async onLogout () {
       try {

@@ -179,6 +179,9 @@ export default {
       articleId: this.articleId // 或者写成 this.$route.params.articleId  也可以
     }
   },
+  // provide: {
+  //   articleId: 'this.articleId' // 或者写成 this.$route.params.articleId  也可以
+  // },
   props: {
     // 使用props解耦获得了的动态路由数据，这样我们就可以使用this.articleId 获取动态路由数据 而不需要使用 this.$route.params.articleId
     articleId: {
